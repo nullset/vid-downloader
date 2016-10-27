@@ -1,17 +1,29 @@
 {
-  "name": "Frontend Masters Downloader",
-  "description": "Download videos for offline use.",
-  "version": "0.1",
-  "minimum_chrome_version": "16.0.884",
-  "permissions": [
-    "downloads",
-    "https://frontendmasters.com/*"
-  ],
-  "browser_action": {"default_popup": "popup.html"},
   "manifest_version": 2,
+  "name": "Vid Downloader",
+  "version": "0.1",
+
+  "description": "A plain text description",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon128.png"
-  }
+  },
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [{
+    "matches": ["https://frontendmasters.com/*"],
+    "js": ["send_links.js"]
+  }],
+  "browser_action": {
+    "default_icon": "icon48.png",
+    "default_title": "Blah"
+  },
+  "permissions": [
+    "downloads",
+    "activeTab"
+  ]
 }
