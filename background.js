@@ -1,5 +1,5 @@
 chrome.browserAction.onClicked.addListener(function(tab) {
-  chrome.tabs.executeScript(null, {file: "send_links.js"});
+  chrome.tabs.executeScript(tab.id, {file: "send_links.js"});
 });
 
 chrome.runtime.onMessage.addListener(

@@ -15,7 +15,7 @@
     "persistent": false
   },
   "content_scripts": [{
-    "matches": ["https://frontendmasters.com/*"],
+    "matches": ["https://frontendmasters.com/*", "https://egghead.io/*"],
     "js": ["send_links.js"]
   }],
   "browser_action": {
@@ -24,6 +24,8 @@
   },
   "permissions": [
     "downloads",
-    "activeTab"
+    "activeTab",
+    "http://*/",
+    "https://*/"
   ]
 }

@@ -1,5 +1,5 @@
 function sanitize(text) {
-  return text.replace(/\/|\?|:/, '');
+  return text.replace(/\/|\?|:|\<|\>/g, '');
 }
 
 function frontendmasters() {
@@ -33,10 +33,11 @@ function frontendmasters() {
 }
 
 function egghead() {
-  var video = document.querySelector('video[src]');
+  var video = document.querySelector('video');
   var filename = [window.location.host];
+  var src;
+  
   if (video) {
-    var source = video.getAttribute('src');
     
     // Is it part of a series?
     var seriesTitle = document.querySelector('.series-title');
@@ -52,15 +53,24 @@ function egghead() {
       }
     }
     
-    var title = document.querySelector('title').innerText.split(' - ');
+    var title = sanitize(document.querySelector('title').innerText).split(' - ');
     title.pop();
     if (seriesNumber) {
       title = seriesNumber + ' ' + title.join(' - ');
     }
     filename.push(sanitize(title) + '.mp4');
     
+    
+    if (video.hasAttribute('src')) {
+      var downloadLink = document.querySelector('.fa-download').parentNode;
+      downloadLink.click();
+      src = downloadLink.nextElementSibling.href;
+    } else {
+      src = video.querySelector('source').src;
+    }
+    
     initiateDownload({
-      src: document.querySelector('.fa-download').parentNode.nextElementSibling.href,
+      src: src,
       filename: filename.join('/')
     });
   }
