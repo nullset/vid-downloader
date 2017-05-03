@@ -3,31 +3,31 @@ function sanitize(text) {
 }
 
 function frontendmasters() {
-  var source = document.querySelector('video source');
+  var source = document.querySelector('video');
   if (source) {
-    var title = sanitize(document.querySelector('.video-player-wrap .title').innerHTML.replace('Now Playing: ', ''));
-    var list = document.querySelectorAll('.video-nav-list .video-nav-item');
-    var number;
+    var courseTitle = sanitize(document.querySelector('.NavBar .title').innerHTML);
+    var list = document.querySelectorAll('.LessonList li:not(.lessongroup)');
+    var number, videoTitle;
     for (var i = 0; i < list.length; i++) {
       var li = list[i];
-      var liTitle = sanitize(li.querySelector('.title').innerHTML);
-      if (liTitle === title) {
+      if (li.classList.contains('active')) {
+        var liTitle = sanitize(li.querySelector('.title').innerHTML);
         var str = (i + 1).toString();
         number = ('000' + str).substring(str.length);
-        title = number + " " + title;
+        liTitle = number + " " + liTitle;
       }
     }
     filename = [
       window.location.host,
-      sanitize(document.querySelector('title').innerHTML),
-      title + '.' + source.src.split('.').slice(-1)[0]
+      // sanitize(document.querySelector('title').innerHTML),
+      // title + '.' + source.src.split('.').slice(-1)[0]
+      courseTitle,
+      liTitle
     ].join('/');
-
-    title += '.' + source.src.split('.').slice(-1)[0];
-    
+        
     initiateDownload({
       src: source.src,
-      filename: filename
+      filename: `${filename}.webm`
     });
   }
 }
